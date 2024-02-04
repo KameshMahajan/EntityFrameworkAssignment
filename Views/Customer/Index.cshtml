@@ -1,0 +1,45 @@
+﻿@model IEnumerable<EFAssignment.Models.Customer>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-10 offset-1">
+            <h4 class=" ">Our Customers</h4>
+            <a class="btn btn-outline-success m-2" asp-controller="Customer" asp-action="Create">Add Customer</a>
+            <table class="table table-bordered">
+                <tr class="text-center">
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Gender</th>
+                    <th>Date Of Birth</th>
+                    <th>Date Of Anniversary</th>
+                    <th>EmailId</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>Action</th>
+                </tr>
+                
+                @foreach (var e in Model)
+                {
+                    <tr class="text-center">
+                        <td>@e.FirstName</td>
+                        <td>@e.LastName</td>
+                        <td>@e.Gender</td>
+                        <td>@e.DateOfBirth</td>
+                        <td>@e.DateOfAnniversary</td>
+                        <td>@e.EmailId</td>
+                        <td>@e.Address</td>
+                        <td>@e.City</td>
+                        <td>
+                            <a class="btn btn-outline-warning m-1" asp-controller="Customer" asp-action="EditCustomer" asp-route-id="@e.Id">Edit</a>
+                            <a class="btn btn-outline-danger" asp-controller="Customer" asp-action="DeleteCustomer" asp-route-id="@e.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+
+</div>

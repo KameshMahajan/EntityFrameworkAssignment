@@ -1,0 +1,55 @@
+﻿@model EFAssignment.Models.OrderViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 offset-3 mb-4">
+            <h4>Add Order</h4>
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="OrderDetails[0].CustomerId">Customer:</label>
+                    <select asp-for="OrderDetails[0].CustomerId" class="form-control" asp-items="ViewBag.Customer">
+                        <option value="">Select a Customer</option>
+                    </select>
+                    <span asp-validation-for="OrderDetails[0].CustomerId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CompanyId" class="control-label">Company:</label>
+                    <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.CompanyId">
+                        <option value="">Select a Company</option>
+                    </select>
+                    <span asp-validation-for="CompanyId" class="text-danger"></span>
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="OrderDetails[0].ProductId">Product:</label>
+                    <select asp-for="OrderDetails[0].ProductId" asp-items="ViewBag.ProductId" class="form-control">  <option value="">Select a Product</option></select>
+                    <span asp-validation-for="OrderDetails[0].ProductId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                        <label asp-for="OrderDetails[0].Quantity">Quantity:</label>
+                        <input asp-for="OrderDetails[0].Quantity" class="form-control" />
+                        <span asp-validation-for="OrderDetails[0].Quantity" class="text-danger"></span>
+                </div>
+                <div class="form-group">    
+                    @*<input type="submit" value="Create" class="btn btn-primary" />*@
+                    <button type="submit" class="mt-2 btn btn-outline-primary">Save</button>
+                    <a class="mt-2 btn btn-outline-success" asp-action="Index">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

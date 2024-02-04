@@ -1,0 +1,102 @@
+﻿@model List<EFAssignment.Models.Order>
+@{
+    ViewData["Title"] = "Order";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 offset-1 mb-4">
+            <h4>Orders</h4>
+            <a class="btn btn-outline-success m-2" asp-controller="Order" asp-action="Create">Add order</a>
+            <button class="btn btn-outline-primary m-2" id="btnCustomerWise">Customer-wise-List</button>
+            <button class="btn btn-outline-primary m-2" id="btnOrderNumberWise">Order Number-wise-List</button>
+            <button class="btn btn-outline-primary m-2" id="btnDateR">Date Range-wise-List</button>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="text-center">
+                        <th>Order Number</th>
+                        <th>Customer</th>
+                        <th>Order Date</th>
+                        <th>Total Bill Amount</th>
+                        <th>Discounted Amount</th>
+                        <th>Bill To Pay Amount</th>
+                        @*<th>Action</th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr class="text-center">
+                            <td>@order.OrderNumber</td>
+                            <td>@order.CustomerId</td>
+                            <td>@order.OrderDate.ToShortDateString()</td>
+                            <td>@order.TotalBillAmount</td>
+                            <td>@order.DiscountedAmount</td>
+                            <td>@order.BillToPayAmount</td>
+                            @*<td>
+                        <a asp-action="Details" asp-route-id="@order.Id">Details</a> |
+                        <a asp-action="Edit" asp-route-id="@order.Id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@order.Id">Delete</a>
+                        </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script>
+        // jQuery is assumed to be available
+        $(document).ready(function () {
+            // Button click events
+            $("#btnCustomerWise").click(function () {
+                var customerId = prompt("Enter Customer ID:");
+
+                // Check if the user entered a value
+                if (customerId !== null) {
+                    // Redirect to the Customer-wise action with the entered customerId
+                    window.location.href = '@Url.Action("CustomerWise", "Order")' + '?customerId=' + encodeURIComponent(customerId);
+                }
+            });
+
+            $("#btnOrderNumberWise").click(function () {
+                var customerId = prompt("Enter Order No:");
+
+                // Check if the user entered a value
+                if (customerId !== null) {
+                    // Redirect to the Customer-wise action with the entered customerId
+                    window.location.href = '@Url.Action("OrderNumberWise", "Order")' + '?orderNumber=' + encodeURIComponent(customerId);
+                }
+                ;
+            });
+
+            $("#btnDateR").click(function () {
+
+                var startDateString = prompt("Enter Start Date (YYYY-MM-DD):");
+                var endDateString = prompt("Enter End Date (YYYY-MM-DD):");
+
+                // Check if the user entered values
+                if (startDateString !== null && endDateString !== null) {
+                    // Parse entered date strings to JavaScript Date objects
+                    var startDate = new Date(startDateString);
+                    var endDate = new Date(endDateString);
+
+                    // Check if the dates are valid
+                    if (!isNaN(startDate) && !isNaN(endDate)) {
+                        // Redirect to the DateRange action with the entered dates
+                        window.location.href = '@Url.Action("DateRange", "Order")' + '?startDate=' + encodeURIComponent(startDate.toISOString()) + '&endDate=' + encodeURIComponent(endDate.toISOString());
+                    } else {
+                        alert("Invalid date format. Please enter dates in the format YYYY-MM-DD.");
+                    }
+                }
+
+            });
+
+        });
+
+    </script>
+}
